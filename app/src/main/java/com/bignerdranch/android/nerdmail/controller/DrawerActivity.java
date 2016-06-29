@@ -1,5 +1,6 @@
 package com.bignerdranch.android.nerdmail.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bignerdranch.android.nerdmail.R;
+import com.bignerdranch.android.nerdmail.model.EmailNotifier;
 
 public class DrawerActivity extends AppCompatActivity {
     private static final String TAG = "DrawerActivity";
@@ -95,6 +97,8 @@ public class DrawerActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         updateToolbarTitle();
+        markEmailsAsNotified();
+        clearNotifications();
     }
 
     @Override
@@ -125,5 +129,15 @@ public class DrawerActivity extends AppCompatActivity {
         if (mCurrentToolbarTitle != 0) {
             mToolbar.setTitle(mCurrentToolbarTitle);
         }
+    }
+
+    private void clearNotifications() {
+        EmailNotifier notifier = EmailNotifier.get(this);
+        notifier.clearNotifications();
+    }
+
+    private void markEmailsAsNotified() {
+        Intent intent = EmailService.getClearIntent(this);
+        startService(intent);
     }
 }
