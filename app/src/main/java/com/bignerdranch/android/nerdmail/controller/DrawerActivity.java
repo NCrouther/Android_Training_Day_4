@@ -1,5 +1,6 @@
 package com.bignerdranch.android.nerdmail.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,13 @@ public class DrawerActivity extends AppCompatActivity {
     private static final String TAG = "DrawerActivity";
     private static final String EXTRA_CURRENT_DRAWER_ITEM
             = "DrawerActivity.CurrentDrawerItem";
+    private static final String EXTRA_IMPORTANT = "important";
+
+    public static Intent createIntent(Context context, boolean openImportant) {
+        Intent intent = new Intent(context, DrawerActivity.class);
+        intent.putExtra(EXTRA_IMPORTANT, openImportant);
+        return intent;
+    }
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -91,6 +99,10 @@ public class DrawerActivity extends AppCompatActivity {
                     EXTRA_CURRENT_DRAWER_ITEM, R.string.nav_drawer_inbox);
         }
 
+        if (getIntent().getBooleanExtra(EXTRA_IMPORTANT, false)) {
+            updateFragment(new ImportantFragment());
+            mCurrentToolbarTitle = R.string.nav_drawer_important;
+        }
     }
 
     @Override

@@ -56,7 +56,7 @@ public class EmailNotifier {
         String sender = email.getSenderAddress();
         String subject = email.getSubject();
         String body = email.getBody();
-        Intent intent = new Intent(mContext, DrawerActivity.class);
+        Intent intent = DrawerActivity.createIntent(mContext, email.isImportant());
         PendingIntent pi = PendingIntent.getActivity(mContext, 0, intent, 0);
         return new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.mipmap.ic_launcher)
